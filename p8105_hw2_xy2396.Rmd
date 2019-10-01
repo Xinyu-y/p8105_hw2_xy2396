@@ -1,0 +1,31 @@
+---
+title: "P8105 Homework2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+```
+
+Problem 1
+
+Mr. Trash Wheel data:
+```{r}
+#read in dataset form Mr. Trash Wheel excel sheet
+mr_tw = 
+  read_excel("./data/TrashWheel080619.xlsx", sheet = "Mr. Trash Wheel", range = "A2:N406") %>% 
+  janitor::clean_names() %>% #clean variable names
+  drop_na(dumpster) %>% #omit rows without specific dumpster
+  mutate(sports_balls = round(sports_balls, 0)) %>% #round to integer
+  mutate(sports_balls = as.integer(sports_balls)) #convert into integer data type
+
+head(mr_tw)
+
+```
+Precipitation data (2017 - 2018):
+```{r}
+
+```
+
