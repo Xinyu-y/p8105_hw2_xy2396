@@ -8,8 +8,9 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(readxl)
 ```
+  
 
-Problem 1
+## Problem 1
 
 Mr. Trash Wheel data:
 ```{r}
@@ -20,11 +21,38 @@ mr_tw =
   drop_na(dumpster) %>% #omit rows without specific dumpster
   mutate(sports_balls = round(sports_balls, 0)) %>% #round to integer
   mutate(sports_balls = as.integer(sports_balls)) #convert into integer data type
-
-head(mr_tw)
-
 ```
 Precipitation data (2017 - 2018):
+```{r}
+#read in precipitation of 2017
+prep_17 = 
+  read_excel("./data/TrashWheel080619.xlsx", sheet = "2017 Precipitation", range = "A2:B14") %>% 
+  janitor::clean_names() %>% 
+  mutate(year = "2017")
+
+#read in precipitation of 2018
+prep_18 = 
+  read_excel("./data/TrashWheel080619.xlsx", sheet = "2018 Precipitation", range = "A2:B14") %>% 
+  janitor::clean_names() %>% 
+  mutate(year = "2018")
+
+#bind two datasets and convert month to character
+prep = 
+  bind_rows(prep_17, prep_18) %>% 
+  mutate(month = month.name[month])
+```
+
+The Mr. Trash Wheel (mr_tw) dataset contains `r nrow(mr_tw)` observations and includes information of the trash collected by each dumpster, such as weight, volume, and count of each type of trash (e.g. plastic bottles, cigarette butts, glass bottles, sports balls). 
+The median number of sports balls in a dumpster in 2017 was `r  mr_tw %>% 
+  group_by(year) %>% 
+  summarize(median_sb = median(sports_balls) ) %>% 
+  filter(year == "2017") %>% 
+  magrittr::extract2("median_sb")`.
+     
+     
+The Precipitation dataset (prep) contains `r nrow(prep)` observations and includes information of the total precipitation in each month across 2017 and 2018. And the total precipitation in 2018 is `r sum(pull(prep_18, total))` inches.
+
+## Problem 2
 ```{r}
 
 ```

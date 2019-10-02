@@ -366,7 +366,8 @@ summary {
 </div>
 
 
-<p>Problem 1</p>
+<div id="problem-1" class="section level2">
+<h2>Problem 1</h2>
 <p>Mr. Trash Wheel data:</p>
 <pre class="r"><code>#read in dataset form Mr. Trash Wheel excel sheet
 mr_tw = 
@@ -374,22 +375,30 @@ mr_tw =
   janitor::clean_names() %&gt;% #clean variable names
   drop_na(dumpster) %&gt;% #omit rows without specific dumpster
   mutate(sports_balls = round(sports_balls, 0)) %&gt;% #round to integer
-  mutate(sports_balls = as.integer(sports_balls)) #convert into integer data type
-
-head(mr_tw)</code></pre>
-<pre><code>## # A tibble: 6 x 14
-##   dumpster month  year date                weight_tons volume_cubic_ya…
-##      &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dttm&gt;                    &lt;dbl&gt;            &lt;dbl&gt;
-## 1        1 May    2014 2014-05-16 00:00:00        4.31               18
-## 2        2 May    2014 2014-05-16 00:00:00        2.74               13
-## 3        3 May    2014 2014-05-16 00:00:00        3.45               15
-## 4        4 May    2014 2014-05-17 00:00:00        3.1                15
-## 5        5 May    2014 2014-05-17 00:00:00        4.06               18
-## 6        6 May    2014 2014-05-20 00:00:00        2.71               13
-## # … with 8 more variables: plastic_bottles &lt;dbl&gt;, polystyrene &lt;dbl&gt;,
-## #   cigarette_butts &lt;dbl&gt;, glass_bottles &lt;dbl&gt;, grocery_bags &lt;dbl&gt;,
-## #   chip_bags &lt;dbl&gt;, sports_balls &lt;int&gt;, homes_powered &lt;dbl&gt;</code></pre>
+  mutate(sports_balls = as.integer(sports_balls)) #convert into integer data type</code></pre>
 <p>Precipitation data (2017 - 2018):</p>
+<pre class="r"><code>#read in precipitation of 2017
+prep_17 = 
+  read_excel(&quot;./data/TrashWheel080619.xlsx&quot;, sheet = &quot;2017 Precipitation&quot;, range = &quot;A2:B14&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(year = &quot;2017&quot;)
+
+#read in precipitation of 2018
+prep_18 = 
+  read_excel(&quot;./data/TrashWheel080619.xlsx&quot;, sheet = &quot;2018 Precipitation&quot;, range = &quot;A2:B14&quot;) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(year = &quot;2018&quot;)
+
+#bind two datasets and convert month to character
+prep = 
+  bind_rows(prep_17, prep_18) %&gt;% 
+  mutate(month = month.name[month])</code></pre>
+<p>The Mr. Trash Wheel (mr_tw) dataset contains 344 observations and includes information of the trash collected by each dumpster, such as weight, volume, and count of each type of trash (e.g. plastic bottles, cigarette butts, glass bottles, sports balls). The median number of sports balls in a dumpster in 2017 was 8.</p>
+<p>The Precipitation dataset (prep) contains 24 observations and includes information of the total precipitation in each month across 2017 and 2018. And the total precipitation in 2018 is 70.33 inches.</p>
+</div>
+<div id="problem-2" class="section level2">
+<h2>Problem 2</h2>
+</div>
 
 
 
